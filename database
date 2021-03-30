@@ -1,0 +1,114 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"/>
+    <style>
+   
+  
+    </style>
+</head>
+<body>
+
+
+<?php
+
+if(isset($_POST['create']))
+{
+$email =$_POST['email'];
+$username =$_POST['username'];
+$firstname =$_POST['firstname'];
+$lastname =$_POST['lastname'];
+$phonenumber =$_POST['phonenumber'];
+$password =$_POST['password'];
+$rpassword =$_POST['rpassword'];
+
+if(strlen($username)>5 && $password==$rpassword)
+{
+
+$db_user="root";
+$db_pass="";
+$db_name="accounts";
+$db= new PDO("mysql:host=localhost;dbname=".$db_name.';charset=utf8',$db_user,$db_pass);
+$db->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
+
+$sql="INSERT INTO students(email,username,firstname,lastname,phonenumber,password) VALUES(?,?,?,?,?,?)";
+$stminsert=$db->prepare($sql);
+$result = $stminsert->execute([$email,$username,$firstname,$lastname,$phonenumber,$password]);
+
+if($result)
+    echo "Sucessfully created";
+
+    else
+
+    echo "Error";
+
+}
+
+else
+{
+
+echo "Please submit your form correctly. Username or password doesn't match.";
+
+}
+
+}
+
+
+
+
+?>
+
+
+<div class="container">
+<div class="row">
+<div class="col-sm-3">
+<h1>Form Registation</h1>
+<p><b>Please fill the form correctly.</b></p>
+<hr class="mb-3">
+<form class="active" method="POST" action="registor.php" >
+
+<label for="email"><b>E-Mail</b> </label>
+<input  class="form-control" type="email" name="email" required>
+    
+
+    <label for="username"><b>USER NAME</b></label>
+    <input class="form-control" name="username" type="text" required>
+    
+    <label for="firstname"><b>FIRST NAME</b></label>
+    <input class="form-control" name="firstname" type="text" required>
+
+    <label for="lastname"><b>LAST NAME</b></label>
+    <input class="form-control" name="lastname" type="text" required>
+
+
+   
+    <label for="phonenumber"><b>PHONE NUMBER</b></label>
+    <input class="form-control" name="phonenumber" type="text" required>
+
+
+
+    <label for="password"><b>PASSWORD</b></label>
+    <input class="form-control" name="password" type="password" required > 
+    
+    <label for="password"><b>Rewrite PASSWORD</b></label>
+    <input class="form-control" name="rpassword" type="password" required > 
+<hr class="mb-3">
+<input type="submit" class="btn btn-primary" value="SIGN UP" name="create">
+
+
+</form>
+
+
+
+   
+    </div>
+</div>
+</div>
+</body>
+</html>
